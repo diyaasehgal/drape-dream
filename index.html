@@ -26,20 +26,19 @@ h1 em{font-style:italic;color:var(--gold)}
 .wrap{max-width:1140px;margin:0 auto;display:grid;grid-template-columns:300px 1fr;gap:2px;background:var(--silk);box-shadow:0 20px 60px rgba(0,0,0,.08)}
 @media(max-width:720px){.wrap{grid-template-columns:1fr}}
 .ctrl{background:var(--white);padding:30px 26px}
-.cs{margin-bottom:22px}
 .ct{font-family:"Cormorant Garamond",serif;font-size:1.05rem;font-weight:400;margin-bottom:3px}
 .cd{font-size:.72rem;color:var(--mist);margin-bottom:12px;line-height:1.5}
-.mt{display:grid;grid-template-columns:1fr 1fr;gap:2px;margin-bottom:0;background:var(--silk)}
+.mt{display:grid;grid-template-columns:1fr 1fr;gap:2px;margin-bottom:20px;background:var(--silk)}
 .mtab{padding:10px 6px;font-family:"DM Sans",sans-serif;font-size:.7rem;letter-spacing:.06em;text-transform:uppercase;background:var(--linen);border:none;cursor:pointer;color:var(--mist);transition:all .15s;text-align:center}
 .mtab.on{background:var(--gold);color:white;font-weight:500}
-.uz{border:1.5px dashed rgba(184,147,90,.38);background:var(--linen);min-height:115px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:7px;cursor:pointer;transition:all .2s;position:relative;overflow:hidden;margin-bottom:8px;margin-top:12px}
+.uz{border:1.5px dashed rgba(184,147,90,.38);background:var(--linen);min-height:115px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:7px;cursor:pointer;transition:all .2s;position:relative;overflow:hidden;margin-bottom:8px;margin-top:4px}
 .uz:hover{border-color:var(--gold);background:#f3ede5}.uz.done{border-style:solid;border-color:var(--gold)}
 .uz img.th{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
 .uzi{font-size:1.4rem;opacity:.25}.uzl{font-size:.71rem;color:var(--mist);text-align:center;padding:0 10px;line-height:1.45}
 .uzov{position:absolute;inset:0;background:rgba(26,20,16,.52);display:flex;align-items:center;justify-content:center;opacity:0;transition:opacity .2s}
 .uz:hover .uzov{opacity:1}.uzov span{color:white;font-size:.68rem;letter-spacing:.1em;text-transform:uppercase}
-.clbl{font-size:.68rem;font-weight:500;letter-spacing:.09em;text-transform:uppercase;color:var(--gold);margin-bottom:3px;display:block;margin-top:14px}
-.sg{display:grid;grid-template-columns:repeat(3,1fr);gap:5px;margin-top:12px}
+.clbl{font-size:.68rem;font-weight:500;letter-spacing:.09em;text-transform:uppercase;color:var(--gold);margin-bottom:3px;display:block;margin-top:12px}
+.sg{display:grid;grid-template-columns:repeat(3,1fr);gap:5px;margin-top:12px;margin-bottom:4px}
 .sb{background:var(--linen);border:1.5px solid transparent;padding:9px 4px;font-family:"DM Sans",sans-serif;font-size:.65rem;color:var(--ink);cursor:pointer;transition:all .15s;text-align:center;line-height:1.35}
 .sb:hover{border-color:var(--gold-lt)}.sb.on{border-color:var(--gold);background:rgba(184,147,90,.07);color:var(--gold)}
 .si{display:block;font-size:.95rem;margin-bottom:3px}
@@ -47,20 +46,21 @@ h1 em{font-style:italic;color:var(--gold)}
 .gb:hover:not(:disabled){background:var(--gold);transform:translateY(-1px)}.gb:disabled{opacity:.35;cursor:not-allowed;transform:none}
 .db{display:none;width:100%;background:transparent;border:1.5px solid var(--gold);color:var(--gold);padding:12px;font-family:"DM Sans",sans-serif;font-size:.72rem;letter-spacing:.1em;text-transform:uppercase;cursor:pointer;transition:all .2s;margin-top:7px}
 .db:hover{background:var(--gold);color:white}.db.show{display:block}
-.outp{background:#0e0b09;display:flex;flex-direction:column}
-.outa{position:relative;overflow:hidden;min-height:520px;display:flex;align-items:center;justify-content:center;flex:1}
-#outImg{display:none;width:100%;height:auto;max-height:700px;object-fit:contain}
+.outp{background:#0e0b09;display:flex;flex-direction:column;min-height:520px}
+.outa{position:relative;overflow:hidden;flex:1;min-height:520px;display:flex;align-items:center;justify-content:center}
+#outImg{display:none;width:100%;height:100%;object-fit:cover}
 .oph{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:40px}
 .oph .bi{font-size:3.5rem;opacity:.1;margin-bottom:16px}
 .oph h3{font-family:"Cormorant Garamond",serif;font-size:1.4rem;font-weight:300;color:rgba(255,255,255,.28);margin-bottom:8px}
 .oph p{font-size:.75rem;color:rgba(255,255,255,.16);line-height:1.7}
 .oph .hint{margin-top:14px;font-size:.68rem;color:rgba(184,147,90,.45);letter-spacing:.05em}
-.lov{position:absolute;inset:0;background:rgba(14,11,9,.92);display:none;flex-direction:column;align-items:center;justify-content:center;gap:18px;z-index:20}
+.lov{position:absolute;inset:0;background:rgba(14,11,9,.95);display:none;flex-direction:column;align-items:center;justify-content:center;gap:20px;z-index:20;padding:40px}
 .lov.on{display:flex}
-.spin{width:40px;height:40px;border:2px solid rgba(255,255,255,.08);border-top-color:var(--gold);border-radius:50%;animation:sp .85s linear infinite}
+.spin{width:44px;height:44px;border:2px solid rgba(255,255,255,.08);border-top-color:var(--gold);border-radius:50%;animation:sp .85s linear infinite}
 @keyframes sp{to{transform:rotate(360deg)}}
-.ltxt{font-size:.74rem;color:rgba(255,255,255,.45);letter-spacing:.1em;text-transform:uppercase}
-.lsv{font-size:.72rem;color:var(--gold);text-align:center;max-width:240px;line-height:1.5}
+.ltxt{font-size:.78rem;color:rgba(255,255,255,.5);letter-spacing:.1em;text-transform:uppercase}
+.lsv{font-size:.74rem;color:var(--gold);text-align:center;max-width:280px;line-height:1.6}
+.ltimer{font-size:.7rem;color:rgba(255,255,255,.25);margin-top:4px}
 .rb{background:var(--white);padding:16px 22px;border-top:1px solid var(--silk);display:none}
 .rb.show{display:block}.rb strong{font-family:"Cormorant Garamond",serif;font-size:1rem;display:block;margin-bottom:4px;color:var(--gold)}
 .rb p{font-size:.76rem;color:var(--mist);line-height:1.65}
@@ -71,7 +71,7 @@ h1 em{font-style:italic;color:var(--gold)}
 .sbody p{font-size:.78rem;color:var(--mist);line-height:1.72}
 footer{background:var(--ink);color:rgba(255,255,255,.3);text-align:center;padding:28px 24px;font-size:.7rem;letter-spacing:.08em}
 footer strong{color:var(--gold-lt);font-weight:400}
-.toast{position:fixed;bottom:24px;left:50%;transform:translateX(-50%);background:var(--ink);color:white;padding:11px 24px;font-size:.75rem;opacity:0;transition:opacity .3s;pointer-events:none;z-index:999;border-left:3px solid var(--gold)}
+.toast{position:fixed;bottom:24px;left:50%;transform:translateX(-50%);background:var(--ink);color:white;padding:11px 24px;font-size:.75rem;opacity:0;transition:opacity .3s;pointer-events:none;z-index:999;border-left:3px solid var(--gold);max-width:90vw;text-align:center}
 .toast.show{opacity:1}
 .cf{display:none}.cf.show{display:block}.sf.hide{display:none}
 </style>
@@ -79,13 +79,13 @@ footer strong{color:var(--gold-lt);font-weight:400}
 <body>
 <nav>
   <div class="logo">Drape <span>&</span> Dream</div>
-  <span class="tag">Curtain Visualizer</span>
+  <span class="tag">AI Curtain Visualizer</span>
 </nav>
 
 <section class="hero">
   <p class="ey">See before you buy</p>
   <h1>See your fabric <em>draped</em><br>in a real room</h1>
-  <p class="hs">Upload any curtain fabric photo and instantly see exactly how it looks hanging in a beautiful room — realistic folds, real lighting.</p>
+  <p class="hs">Upload your curtain fabric photo — our AI generates a beautiful, photorealistic room showing exactly how your fabric looks as curtains.</p>
   <a href="#vis" class="cta">✦ Try the Visualizer</a>
 </section>
 
@@ -94,7 +94,7 @@ footer strong{color:var(--gold-lt);font-weight:400}
   <h2 class="st">Fabric Visualizer</h2>
   <div class="wrap">
     <div class="ctrl">
-      <div class="cs">
+      <div style="margin-bottom:20px">
         <div class="ct">Curtain Type</div>
         <div class="cd">Single fabric or two-layer combination?</div>
         <div class="mt">
@@ -104,11 +104,12 @@ footer strong{color:var(--gold-lt);font-weight:400}
       </div>
 
       <div class="sf" id="sf">
-        <div class="ct">Upload Fabric</div>
-        <div class="cd">Close-up photo of your curtain fabric only</div>
+        <div class="ct">Upload Fabric Photo</div>
+        <div class="cd">Close-up of your curtain fabric — the clearer the photo, the better the result!</div>
         <div class="uz" id="uz1" onclick="document.getElementById('fi1').click()">
-          <span class="uzi">🪡</span><span class="uzl">Tap to upload fabric photo</span>
-          <div class="uzov"><span>Change</span></div>
+          <span class="uzi">🪡</span>
+          <span class="uzl">Tap to upload fabric photo</span>
+          <div class="uzov"><span>Change Photo</span></div>
         </div>
         <input type="file" id="fi1" accept="image/*" style="display:none" onchange="onUp(event,'f1')"/>
       </div>
@@ -130,7 +131,7 @@ footer strong{color:var(--gold-lt);font-weight:400}
         <input type="file" id="fi3" accept="image/*" style="display:none" onchange="onUp(event,'f3')"/>
       </div>
 
-      <div class="cs" style="margin-top:20px">
+      <div style="margin-top:20px">
         <div class="ct">Room Style</div>
         <div class="cd">Choose the room setting</div>
         <div class="sg">
@@ -151,18 +152,22 @@ footer strong{color:var(--gold-lt);font-weight:400}
       <div class="outa">
         <div class="oph" id="oph">
           <div class="bi">🪟</div>
-          <h3>Your room preview</h3>
-          <p>Upload a fabric photo and tap Generate<br>to see your curtain in a real room</p>
-          <div class="hint">Upload close-up fabric photo only — not a room photo</div>
+          <h3>Your AI room preview</h3>
+          <p>Upload a fabric photo and tap Generate<br>AI will create a realistic room with<br>your fabric as curtains</p>
+          <div class="hint">Works best with clear, well-lit fabric photos</div>
         </div>
-        <img id="outImg" alt="Room visualization"/>
+        <img id="outImg" alt="AI Generated Room"/>
         <div class="lov" id="lov">
           <div class="spin"></div>
-          <div class="ltxt">Processing your fabric...</div>
-          <div class="lsv" id="ls">Uploading to server...</div>
+          <div class="ltxt">AI generating your room...</div>
+          <div class="lsv" id="ls">Analyzing fabric color and pattern...</div>
+          <div class="ltimer" id="ltimer">This takes 20-40 seconds</div>
         </div>
       </div>
-      <div class="rb" id="rb"><strong id="rt"></strong><p id="rd"></p></div>
+      <div class="rb" id="rb">
+        <strong id="rt">Your Room Preview</strong>
+        <p id="rd"></p>
+      </div>
     </div>
   </div>
 </section>
@@ -171,10 +176,10 @@ footer strong{color:var(--gold-lt);font-weight:400}
   <p class="sl">Simple Process</p>
   <h2 class="st" style="text-align:center;margin-bottom:44px">How it works</h2>
   <div class="steps">
-    <div class="step"><div class="sn">1</div><div class="sbody"><h3>Upload your fabric photo</h3><p>Take a clear close-up photo of your curtain fabric in good natural lighting. The pattern and texture should be clearly visible.</p></div></div>
-    <div class="step"><div class="sn">2</div><div class="sbody"><h3>Choose your room style</h3><p>Select from Living Room, Classic, Bedroom, Dining, Minimal, or Boho — the room that best matches your customer's home.</p></div></div>
-    <div class="step"><div class="sn">3</div><div class="sbody"><h3>Server renders realistic result</h3><p>Our server maps your fabric precisely onto a real room photo with accurate fold shading, draping, and lighting.</p></div></div>
-    <div class="step"><div class="sn">4</div><div class="sbody"><h3>Try double layer combinations</h3><p>Upload sheer net fabric and main curtain fabric together — see exactly how the combination looks before ordering.</p></div></div>
+    <div class="step"><div class="sn">1</div><div class="sbody"><h3>Upload your fabric photo</h3><p>Take a clear close-up photo of your curtain fabric in good lighting. The better the photo, the more accurate the AI result will be.</p></div></div>
+    <div class="step"><div class="sn">2</div><div class="sbody"><h3>Choose your room style</h3><p>Select from Living Room, Classic, Bedroom, Dining, Minimal, or Boho to match your customer's home style.</p></div></div>
+    <div class="step"><div class="sn">3</div><div class="sbody"><h3>AI generates the room</h3><p>Our AI analyzes your fabric's exact color, pattern, and texture — then generates a photorealistic room with your fabric as beautiful curtains.</p></div></div>
+    <div class="step"><div class="sn">4</div><div class="sbody"><h3>Download and share</h3><p>Download the generated image to share with customers via WhatsApp, Instagram, or print it for your shop display.</p></div></div>
   </div>
 </section>
 
@@ -182,8 +187,7 @@ footer strong{color:var(--gold-lt);font-weight:400}
 <div class="toast" id="toast"></div>
 
 <script>
-const GROQ_KEY='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';
-let mode='single',style='modern',fabrics={},mimes={},resultUrl=null;
+let mode='single', style='modern', fabrics={}, mimes={}, resultUrl=null;
 
 function setMode(btn,m){
   mode=m;
@@ -195,10 +199,10 @@ function setMode(btn,m){
 }
 function selS(btn){
   document.querySelectorAll('.sb').forEach(b=>b.classList.remove('on'));
-  btn.classList.add('on');style=btn.dataset.s;
+  btn.classList.add('on'); style=btn.dataset.s;
 }
 function onUp(e,key){
-  const file=e.target.files[0];if(!file)return;
+  const file=e.target.files[0]; if(!file) return;
   mimes[key]=file.type;
   const r=new FileReader();
   r.onload=ev=>{
@@ -218,7 +222,17 @@ function onUp(e,key){
 function checkReady(){
   document.getElementById('gb').disabled=mode==='single'?!fabrics.f1:!(fabrics.f2&&fabrics.f3);
 }
-const STEPS=['Uploading fabric to server...','Server processing image...','Mapping fabric to curtain shape...','Applying fold shading...','Color grading room...','Finalizing...'];
+
+const STEPS=[
+  'Analyzing fabric color and pattern...',
+  'Understanding texture and design...',
+  'Creating room layout...',
+  'Placing curtains in the room...',
+  'Adding lighting and shadows...',
+  'Finalizing photorealistic details...',
+  'Almost ready...'
+];
+
 async function generate(){
   document.getElementById('gb').disabled=true;
   document.getElementById('lov').classList.add('on');
@@ -226,60 +240,81 @@ async function generate(){
   document.getElementById('outImg').style.display='none';
   document.getElementById('rb').classList.remove('show');
   document.getElementById('db').classList.remove('show');
+
   let si=0;
-  const st=setInterval(()=>{si=(si+1)%STEPS.length;document.getElementById('ls').textContent=STEPS[si];},1000);
+  const st=setInterval(()=>{
+    si=(si+1)%STEPS.length;
+    document.getElementById('ls').textContent=STEPS[si];
+  },4000);
+
+  // Timer
+  let secs=0;
+  const timer=setInterval(()=>{
+    secs++;
+    document.getElementById('ltimer').textContent=`${secs}s elapsed — AI is working...`;
+  },1000);
+
   try{
-    const mainB64=fabrics[mode==='single'?'f1':'f3'].split(',')[1];
-    const sheerB64=mode==='combo'?fabrics.f2.split(',')[1]:null;
+    const fkey=mode==='single'?'f1':'f3';
+    const mainB64=fabrics[fkey].split(',')[1];
+    const mainMime=mimes[fkey];
+    
+    const body={
+      fabric_main: mainB64,
+      fabric_mime: mainMime,
+      style,
+      mode
+    };
+    
+    if(mode==='combo' && fabrics.f2){
+      body.fabric_sheer=fabrics.f2.split(',')[1];
+      body.sheer_mime=mimes.f2;
+    }
+
     const resp=await fetch('/visualize',{
       method:'POST',
       headers:{'Content-Type':'application/json'},
-      body:JSON.stringify({fabric_main:mainB64,fabric_sheer:sheerB64,style,mode})
+      body:JSON.stringify(body)
     });
+
     const data=await resp.json();
-    if(data.error)throw new Error(data.error);
+    if(data.error) throw new Error(data.error);
+
     const src='data:image/jpeg;base64,'+data.image;
     const img=document.getElementById('outImg');
-    img.src=src;img.style.display='block';
+    img.src=src;
+    img.style.display='block';
     resultUrl=src;
-    // AI description
-    try{
-      const fkey=mode==='single'?'f1':'f3';
-      const ar=await fetch('https://api.groq.com/openai/v1/chat/completions',{
-        method:'POST',
-        headers:{'Content-Type':'application/json','Authorization':`Bearer ${GROQ_KEY}`},
-        body:JSON.stringify({model:'meta-llama/llama-4-scout-17b-16e-instruct',max_tokens:150,
-          messages:[{role:'user',content:[
-            {type:'image_url',image_url:{url:fabrics[fkey]}},
-            {type:'text',text:'Analyze curtain fabric. ONLY JSON: {"mood":"one word","title":"4-word title","analysis":"one sentence about color and pattern."}'}
-          ]}]
-        })
-      });
-      const ad=await ar.json();
-      if(!ad.error){
-        const p={...{mood:'Elegant',title:'Your Room Preview',analysis:''},...JSON.parse((ad.choices?.[0]?.message?.content||'{}').replace(/```json|```/g,'').trim())};
-        document.getElementById('rt').textContent=p.mood+' — '+p.title;
-        document.getElementById('rd').textContent=p.analysis;
-        document.getElementById('rb').classList.add('show');
-      }
-    }catch(e){}
+
+    if(data.fabric_description){
+      document.getElementById('rd').textContent='Fabric: '+data.fabric_description;
+      document.getElementById('rb').classList.add('show');
+    }
     document.getElementById('db').classList.add('show');
+
   }catch(err){
-    showToast('Error: '+(err.message||'Something went wrong'));
+    showToast('❌ '+err.message+' — Please try again');
     document.getElementById('oph').style.display='flex';
   }finally{
     clearInterval(st);
+    clearInterval(timer);
     document.getElementById('lov').classList.remove('on');
     checkReady();
   }
 }
+
 function dlImg(){
   if(!resultUrl)return;
-  const a=document.createElement('a');a.href=resultUrl;a.download='drape-dream.jpg';a.click();
+  const a=document.createElement('a');
+  a.href=resultUrl;
+  a.download='drape-dream-room.jpg';
+  a.click();
 }
 function showToast(msg){
-  const t=document.getElementById('toast');t.textContent=msg;
-  t.classList.add('show');setTimeout(()=>t.classList.remove('show'),4500);
+  const t=document.getElementById('toast');
+  t.textContent=msg;
+  t.classList.add('show');
+  setTimeout(()=>t.classList.remove('show'),5000);
 }
 </script>
 </body>
