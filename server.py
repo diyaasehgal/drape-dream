@@ -1,69 +1,105 @@
-from flask import Flask, request, jsonify, send_file, send_from_directory
+from flask import Flask, request, jsonify, send_from_directory
 from flask_cors import CORS
-from PIL import Image, ImageFilter, ImageDraw
-import numpy as np
-import base64
-import io
-import os
+import base64, io, os, requests, json
+from PIL import Image
 
-# Flask app - serve static files from current directory
 app = Flask(__name__)
 CORS(app)
 
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
-ROOM_PATH = os.path.join(BASE_DIR, 'room_template.jpg')
 PUBLIC_DIR = BASE_DIR
+HF_TOKEN = "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"
 
-LEFT_POLY  = [(0,0),(255,0),(248,337),(232,675),(214,1012),(196,1350),(0,1350)]
-RIGHT_POLY = [(644,0),(900,0),(900,1350),(704,1350),(686,1012),(668,675),(652,337)]
+GROQ_KEY = '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'
 
-GRADES = {
-    'modern':  dict(bright=1.00, sat=1.00, contrast=1.00, warmth=0),
-    'classic': dict(bright=0.88, sat=0.75, contrast=1.08, warmth=18),
-    'bedroom': dict(bright=1.05, sat=0.85, contrast=0.92, warmth=8),
-    'dining':  dict(bright=0.92, sat=1.10, contrast=1.05, warmth=-5),
-    'minimal': dict(bright=1.12, sat=0.45, contrast=0.88, warmth=4),
-    'boho':    dict(bright=0.95, sat=1.20, contrast=1.02, warmth=24),
+ROOM_STYLES = {
+    'modern':   'modern contemporary living room, large windows, neutral beige walls, wooden floor, minimalist furniture',
+    'classic':  'classic elegant living room, high ceilings, ornate moldings, warm lighting, traditional furniture',
+    'bedroom':  'luxury bedroom, soft lighting, king size bed, elegant decor, large window',
+    'dining':   'elegant dining room, chandelier, wooden dining table, chairs, large window',
+    'minimal':  'minimalist Scandinavian room, white walls, simple furniture, natural light, clean lines',
+    'boho':     'bohemian cozy living room, warm earthy tones, plants, rattan furniture, layered textiles',
 }
 
-def get_luminance(arr):
-    r,g,b = arr[:,:,0], arr[:,:,1], arr[:,:,2]
-    lum = (0.299*r + 0.587*g + 0.114*b) / 255.0
-    mn, mx = lum.min(), lum.max()
-    return (lum - mn) / (mx - mn + 1e-6)
+def analyze_fabric(image_b64, mime):
+    """Use Groq to analyze fabric color and pattern"""
+    try:
+        resp = requests.post(
+            'https://api.groq.com/openai/v1/chat/completions',
+            headers={'Authorization': f'Bearer {GROQ_KEY}', 'Content-Type': 'application/json'},
+            json={
+                'model': 'meta-llama/llama-4-scout-17b-16e-instruct',
+                'max_tokens': 200,
+                'messages': [{'role': 'user', 'content': [
+                    {'type': 'image_url', 'image_url': {'url': f'data:{mime};base64,{image_b64}'}},
+                    {'type': 'text', 'text': 'Describe this curtain fabric in detail for an AI image generator. Include: exact colors, pattern type (floral/geometric/solid/striped etc), texture (sheer/heavy/velvet/cotton/silk etc), and any distinctive features. Be specific and concise in 2-3 sentences. Start directly with the description.'}
+                ]}]
+            },
+            timeout=15
+        )
+        data = resp.json()
+        return data['choices'][0]['message']['content'].strip()
+    except Exception as e:
+        return "elegant curtain fabric with subtle pattern and rich texture"
 
-def make_mask(H, W, poly):
-    mask = Image.new('L', (W, H), 0)
-    ImageDraw.Draw(mask).polygon(poly, fill=255)
-    mask = mask.filter(ImageFilter.GaussianBlur(3))
-    return np.array(mask).astype(float) / 255.0
+def generate_room_image(fabric_desc, room_style, style_key):
+    """Generate room image using Hugging Face FLUX model"""
+    room_desc = ROOM_STYLES.get(style_key, ROOM_STYLES['modern'])
+    
+    prompt = (
+        f"Interior design photograph, {room_desc}, "
+        f"with beautiful floor-to-ceiling curtains made of {fabric_desc}, "
+        f"curtains hanging naturally with elegant folds and drapes on both sides of the window, "
+        f"professional interior photography, soft natural lighting, 4K quality, "
+        f"photorealistic, high detail, beautiful composition"
+    )
+    
+    negative = (
+        "cartoon, illustration, drawing, anime, ugly, blurry, low quality, "
+        "distorted, watermark, text, signature, bad anatomy, wrong colors"
+    )
 
-def tile_fabric(fab, panel_w, W, H):
-    fw, fh = fab.size
-    scale = (panel_w / fw) * 1.15
-    tw = max(int(fw*scale), 60)
-    th = max(int(fh*scale), 60)
-    fs = fab.resize((tw, th), Image.LANCZOS)
-    t = Image.new('RGB', (W, H))
-    for y in range(0, H, th):
-        for x in range(0, W, tw):
-            t.paste(fs, (x, y))
-    return np.array(t).astype(float)
-
-def apply_grade(arr, style):
-    g = GRADES.get(style, GRADES['modern'])
-    r,gv,b = arr[:,:,0].copy(), arr[:,:,1].copy(), arr[:,:,2].copy()
-    r  = r*g['bright']  + g['warmth']*0.6
-    gv = gv*g['bright'] + g['warmth']*0.2
-    b  = b*g['bright']  - g['warmth']*0.4
-    avg = (r+gv+b)/3
-    r  = avg+(r-avg)*g['sat']
-    gv = avg+(gv-avg)*g['sat']
-    b  = avg+(b-avg)*g['sat']
-    r  = ((r/255-0.5)*g['contrast']+0.5)*255
-    gv = ((gv/255-0.5)*g['contrast']+0.5)*255
-    b  = ((b/255-0.5)*g['contrast']+0.5)*255
-    return np.clip(np.stack([r,gv,b],axis=2),0,255)
+    # Try FLUX schnell first (fastest free model)
+    models = [
+        "black-forest-labs/FLUX.1-schnell",
+        "stabilityai/stable-diffusion-xl-base-1.0",
+        "runwayml/stable-diffusion-v1-5",
+    ]
+    
+    for model in models:
+        try:
+            url = f"https://api-inference.huggingface.co/models/{model}"
+            headers = {"Authorization": f"Bearer {HF_TOKEN}"}
+            
+            payload = {"inputs": prompt}
+            if "stable-diffusion" in model:
+                payload["parameters"] = {
+                    "negative_prompt": negative,
+                    "num_inference_steps": 25,
+                    "guidance_scale": 7.5,
+                    "width": 768,
+                    "height": 768,
+                }
+            
+            resp = requests.post(url, headers=headers, json=payload, timeout=60)
+            
+            if resp.status_code == 200 and resp.headers.get('content-type', '').startswith('image'):
+                return base64.b64encode(resp.content).decode(), None
+            elif resp.status_code == 503:
+                # Model loading, try next
+                continue
+            else:
+                error_text = resp.text[:200]
+                print(f"Model {model} failed: {resp.status_code} - {error_text}")
+                continue
+                
+        except requests.Timeout:
+            continue
+        except Exception as e:
+            print(f"Model {model} error: {e}")
+            continue
+    
+    return None, "All models failed or are loading. Please try again in 30 seconds."
 
 @app.route('/')
 def index():
@@ -73,68 +109,53 @@ def index():
 def static_files(filename):
     return send_from_directory(PUBLIC_DIR, filename)
 
-@app.route('/visualize', methods=['POST','OPTIONS'])
+@app.route('/visualize', methods=['POST', 'OPTIONS'])
 def visualize():
     if request.method == 'OPTIONS':
-        resp = jsonify({})
-        resp.headers['Access-Control-Allow-Origin'] = '*'
-        resp.headers['Access-Control-Allow-Headers'] = 'Content-Type'
-        return resp, 200
-
+        return '', 200, {
+            'Access-Control-Allow-Origin': '*',
+            'Access-Control-Allow-Headers': 'Content-Type',
+            'Access-Control-Allow-Methods': 'POST'
+        }
+    
     try:
         data = request.get_json()
-        main_b64  = data.get('fabric_main','')
-        sheer_b64 = data.get('fabric_sheer','')
-        style = data.get('style','modern')
-        mode  = data.get('mode','single')
-
-        if not main_b64:
-            return jsonify({'error':'fabric_main required'}), 400
-
-        room = Image.open(ROOM_PATH).convert('RGB')
-        W, H = room.size
-        room_arr = np.array(room).astype(float)
-        lum = get_luminance(room_arr)
-        result = apply_grade(room_arr, style)
-
-        main_fab = Image.open(io.BytesIO(base64.b64decode(main_b64))).convert('RGB')
-
-        if mode == 'combo' and sheer_b64:
-            sheer_fab = Image.open(io.BytesIO(base64.b64decode(sheer_b64))).convert('RGB')
-            wx = LEFT_POLY[1][0]
-            ww = RIGHT_POLY[0][0] - wx
-            st = tile_fabric(sheer_fab, ww, W, H)
-            lm = (lum*0.84+0.28)[:,:,np.newaxis]
-            ss = np.clip(st*lm, 0, 255)
-            sm = np.zeros((H,W,1))
-            sm[:, wx:RIGHT_POLY[0][0], 0] = 0.38
-            result = result*(1-sm) + ss*sm
-
-        lm = (lum*0.84+0.28)[:,:,np.newaxis]
-
-        lt = tile_fabric(main_fab, LEFT_POLY[1][0], W, H)
-        ls = np.clip(lt*lm, 0, 255)
-        lmask = make_mask(H,W,LEFT_POLY)[:,:,np.newaxis]
-        result = result*(1-lmask) + ls*lmask
-
-        rt = tile_fabric(main_fab, W-RIGHT_POLY[0][0], W, H)
-        rs = np.clip(rt*lm, 0, 255)
-        rmask = make_mask(H,W,RIGHT_POLY)[:,:,np.newaxis]
-        result = result*(1-rmask) + rs*rmask
-
-        out = Image.fromarray(np.clip(result,0,255).astype(np.uint8))
-        buf = io.BytesIO()
-        out.save(buf, format='JPEG', quality=92)
-        b64 = base64.b64encode(buf.getvalue()).decode()
-
-        resp = jsonify({'image': b64})
-        resp.headers['Access-Control-Allow-Origin'] = '*'
-        return resp
-
+        fabric_b64 = data.get('fabric_main', '')
+        fabric_mime = data.get('fabric_mime', 'image/jpeg')
+        style = data.get('style', 'modern')
+        mode = data.get('mode', 'single')
+        
+        if not fabric_b64:
+            return jsonify({'error': 'No fabric image provided'}), 400
+        
+        # Step 1: Analyze fabric
+        print(f"Analyzing fabric for style: {style}")
+        fabric_desc = analyze_fabric(fabric_b64, fabric_mime)
+        print(f"Fabric desc: {fabric_desc}")
+        
+        # Step 2: If combo mode, analyze sheer too
+        if mode == 'combo':
+            sheer_b64 = data.get('fabric_sheer', '')
+            sheer_mime = data.get('sheer_mime', 'image/jpeg')
+            if sheer_b64:
+                sheer_desc = analyze_fabric(sheer_b64, sheer_mime)
+                fabric_desc = f"layered curtains with sheer {sheer_desc} behind and {fabric_desc} as main panels"
+        
+        # Step 3: Generate room image
+        print("Generating room image...")
+        img_b64, error = generate_room_image(fabric_desc, ROOM_STYLES.get(style), style)
+        
+        if error:
+            return jsonify({'error': error}), 500
+        
+        return jsonify({
+            'image': img_b64,
+            'fabric_description': fabric_desc
+        }), 200, {'Access-Control-Allow-Origin': '*'}
+        
     except Exception as e:
-        resp = jsonify({'error': str(e)})
-        resp.headers['Access-Control-Allow-Origin'] = '*'
-        return resp, 500
+        print(f"Error: {e}")
+        return jsonify({'error': str(e)}), 500, {'Access-Control-Allow-Origin': '*'}
 
 if __name__ == '__main__':
     port = int(os.environ.get('PORT', 5000))
