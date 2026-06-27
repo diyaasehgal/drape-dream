@@ -12,7 +12,7 @@ CORS(app)
 
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 ROOM_PATH = os.path.join(BASE_DIR, 'room_template.jpg')
-PUBLIC_DIR = os.path.join(BASE_DIR, 'public')
+PUBLIC_DIR = BASE_DIR
 
 LEFT_POLY  = [(0,0),(255,0),(248,337),(232,675),(214,1012),(196,1350),(0,1350)]
 RIGHT_POLY = [(644,0),(900,0),(900,1350),(704,1350),(686,1012),(668,675),(652,337)]
