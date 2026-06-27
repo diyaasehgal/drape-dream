@@ -1,0 +1,286 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<title>Drape & Dream — Curtain Visualizer</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet"/>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{--ink:#1a1410;--linen:#f7f3ed;--silk:#e8ddd0;--gold:#b8935a;--gold-lt:#d4aa72;--mist:#8a8078;--white:#fdfbf8}
+html{scroll-behavior:smooth}
+body{background:var(--linen);color:var(--ink);font-family:"DM Sans",sans-serif;font-weight:300;overflow-x:hidden}
+nav{position:fixed;top:0;left:0;right:0;z-index:100;display:flex;align-items:center;justify-content:space-between;padding:18px 40px;background:rgba(247,243,237,.97);backdrop-filter:blur(14px);border-bottom:1px solid rgba(184,147,90,.18)}
+.logo{font-family:"Cormorant Garamond",serif;font-size:1.5rem;font-weight:600}.logo span{color:var(--gold)}
+.tag{font-size:.68rem;letter-spacing:.15em;text-transform:uppercase;color:var(--mist)}
+.hero{min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:130px 24px 70px;text-align:center}
+.ey{font-size:.68rem;letter-spacing:.22em;text-transform:uppercase;color:var(--gold);margin-bottom:20px}
+h1{font-family:"Cormorant Garamond",serif;font-size:clamp(2.6rem,7vw,5rem);font-weight:300;line-height:1.08;max-width:700px;margin-bottom:22px}
+h1 em{font-style:italic;color:var(--gold)}
+.hs{font-size:1rem;line-height:1.75;color:var(--mist);max-width:440px;margin-bottom:46px}
+.cta{display:inline-flex;align-items:center;gap:12px;background:var(--gold);color:var(--white);padding:16px 38px;font-size:.82rem;letter-spacing:.1em;text-transform:uppercase;text-decoration:none;border:none;cursor:pointer;transition:all .22s;font-family:"DM Sans",sans-serif}
+.cta:hover{background:var(--gold-lt);transform:translateY(-2px)}
+#vis{background:var(--white);padding:80px 24px}
+.sl{text-align:center;font-size:.67rem;letter-spacing:.22em;text-transform:uppercase;color:var(--gold);margin-bottom:10px}
+.st{text-align:center;font-family:"Cormorant Garamond",serif;font-size:clamp(1.9rem,4vw,2.8rem);font-weight:400;margin-bottom:44px}
+.wrap{max-width:1140px;margin:0 auto;display:grid;grid-template-columns:300px 1fr;gap:2px;background:var(--silk);box-shadow:0 20px 60px rgba(0,0,0,.08)}
+@media(max-width:720px){.wrap{grid-template-columns:1fr}}
+.ctrl{background:var(--white);padding:30px 26px}
+.cs{margin-bottom:22px}
+.ct{font-family:"Cormorant Garamond",serif;font-size:1.05rem;font-weight:400;margin-bottom:3px}
+.cd{font-size:.72rem;color:var(--mist);margin-bottom:12px;line-height:1.5}
+.mt{display:grid;grid-template-columns:1fr 1fr;gap:2px;margin-bottom:0;background:var(--silk)}
+.mtab{padding:10px 6px;font-family:"DM Sans",sans-serif;font-size:.7rem;letter-spacing:.06em;text-transform:uppercase;background:var(--linen);border:none;cursor:pointer;color:var(--mist);transition:all .15s;text-align:center}
+.mtab.on{background:var(--gold);color:white;font-weight:500}
+.uz{border:1.5px dashed rgba(184,147,90,.38);background:var(--linen);min-height:115px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:7px;cursor:pointer;transition:all .2s;position:relative;overflow:hidden;margin-bottom:8px;margin-top:12px}
+.uz:hover{border-color:var(--gold);background:#f3ede5}.uz.done{border-style:solid;border-color:var(--gold)}
+.uz img.th{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+.uzi{font-size:1.4rem;opacity:.25}.uzl{font-size:.71rem;color:var(--mist);text-align:center;padding:0 10px;line-height:1.45}
+.uzov{position:absolute;inset:0;background:rgba(26,20,16,.52);display:flex;align-items:center;justify-content:center;opacity:0;transition:opacity .2s}
+.uz:hover .uzov{opacity:1}.uzov span{color:white;font-size:.68rem;letter-spacing:.1em;text-transform:uppercase}
+.clbl{font-size:.68rem;font-weight:500;letter-spacing:.09em;text-transform:uppercase;color:var(--gold);margin-bottom:3px;display:block;margin-top:14px}
+.sg{display:grid;grid-template-columns:repeat(3,1fr);gap:5px;margin-top:12px}
+.sb{background:var(--linen);border:1.5px solid transparent;padding:9px 4px;font-family:"DM Sans",sans-serif;font-size:.65rem;color:var(--ink);cursor:pointer;transition:all .15s;text-align:center;line-height:1.35}
+.sb:hover{border-color:var(--gold-lt)}.sb.on{border-color:var(--gold);background:rgba(184,147,90,.07);color:var(--gold)}
+.si{display:block;font-size:.95rem;margin-bottom:3px}
+.gb{width:100%;background:var(--ink);color:var(--white);border:none;padding:15px;font-family:"DM Sans",sans-serif;font-size:.78rem;letter-spacing:.11em;text-transform:uppercase;cursor:pointer;transition:all .2s;display:flex;align-items:center;justify-content:center;gap:9px;margin-top:20px}
+.gb:hover:not(:disabled){background:var(--gold);transform:translateY(-1px)}.gb:disabled{opacity:.35;cursor:not-allowed;transform:none}
+.db{display:none;width:100%;background:transparent;border:1.5px solid var(--gold);color:var(--gold);padding:12px;font-family:"DM Sans",sans-serif;font-size:.72rem;letter-spacing:.1em;text-transform:uppercase;cursor:pointer;transition:all .2s;margin-top:7px}
+.db:hover{background:var(--gold);color:white}.db.show{display:block}
+.outp{background:#0e0b09;display:flex;flex-direction:column}
+.outa{position:relative;overflow:hidden;min-height:520px;display:flex;align-items:center;justify-content:center;flex:1}
+#outImg{display:none;width:100%;height:auto;max-height:700px;object-fit:contain}
+.oph{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:40px}
+.oph .bi{font-size:3.5rem;opacity:.1;margin-bottom:16px}
+.oph h3{font-family:"Cormorant Garamond",serif;font-size:1.4rem;font-weight:300;color:rgba(255,255,255,.28);margin-bottom:8px}
+.oph p{font-size:.75rem;color:rgba(255,255,255,.16);line-height:1.7}
+.oph .hint{margin-top:14px;font-size:.68rem;color:rgba(184,147,90,.45);letter-spacing:.05em}
+.lov{position:absolute;inset:0;background:rgba(14,11,9,.92);display:none;flex-direction:column;align-items:center;justify-content:center;gap:18px;z-index:20}
+.lov.on{display:flex}
+.spin{width:40px;height:40px;border:2px solid rgba(255,255,255,.08);border-top-color:var(--gold);border-radius:50%;animation:sp .85s linear infinite}
+@keyframes sp{to{transform:rotate(360deg)}}
+.ltxt{font-size:.74rem;color:rgba(255,255,255,.45);letter-spacing:.1em;text-transform:uppercase}
+.lsv{font-size:.72rem;color:var(--gold);text-align:center;max-width:240px;line-height:1.5}
+.rb{background:var(--white);padding:16px 22px;border-top:1px solid var(--silk);display:none}
+.rb.show{display:block}.rb strong{font-family:"Cormorant Garamond",serif;font-size:1rem;display:block;margin-bottom:4px;color:var(--gold)}
+.rb p{font-size:.76rem;color:var(--mist);line-height:1.65}
+.how{padding:80px 24px;background:var(--linen)}.steps{max-width:720px;margin:0 auto}
+.step{display:flex;gap:30px;padding:30px 0;border-bottom:1px solid var(--silk)}.step:last-child{border-bottom:none}
+.sn{font-family:"Cormorant Garamond",serif;font-size:2.4rem;font-weight:300;color:var(--gold);opacity:.3;min-width:46px;line-height:1;flex-shrink:0}
+.sbody h3{font-family:"Cormorant Garamond",serif;font-size:1.2rem;font-weight:400;margin-bottom:6px}
+.sbody p{font-size:.78rem;color:var(--mist);line-height:1.72}
+footer{background:var(--ink);color:rgba(255,255,255,.3);text-align:center;padding:28px 24px;font-size:.7rem;letter-spacing:.08em}
+footer strong{color:var(--gold-lt);font-weight:400}
+.toast{position:fixed;bottom:24px;left:50%;transform:translateX(-50%);background:var(--ink);color:white;padding:11px 24px;font-size:.75rem;opacity:0;transition:opacity .3s;pointer-events:none;z-index:999;border-left:3px solid var(--gold)}
+.toast.show{opacity:1}
+.cf{display:none}.cf.show{display:block}.sf.hide{display:none}
+</style>
+</head>
+<body>
+<nav>
+  <div class="logo">Drape <span>&</span> Dream</div>
+  <span class="tag">Curtain Visualizer</span>
+</nav>
+
+<section class="hero">
+  <p class="ey">See before you buy</p>
+  <h1>See your fabric <em>draped</em><br>in a real room</h1>
+  <p class="hs">Upload any curtain fabric photo and instantly see exactly how it looks hanging in a beautiful room — realistic folds, real lighting.</p>
+  <a href="#vis" class="cta">✦ Try the Visualizer</a>
+</section>
+
+<section id="vis">
+  <p class="sl">AI Powered Tool</p>
+  <h2 class="st">Fabric Visualizer</h2>
+  <div class="wrap">
+    <div class="ctrl">
+      <div class="cs">
+        <div class="ct">Curtain Type</div>
+        <div class="cd">Single fabric or two-layer combination?</div>
+        <div class="mt">
+          <button class="mtab on" onclick="setMode(this,'single')">Single Layer</button>
+          <button class="mtab" onclick="setMode(this,'combo')">Double Layer</button>
+        </div>
+      </div>
+
+      <div class="sf" id="sf">
+        <div class="ct">Upload Fabric</div>
+        <div class="cd">Close-up photo of your curtain fabric only</div>
+        <div class="uz" id="uz1" onclick="document.getElementById('fi1').click()">
+          <span class="uzi">🪡</span><span class="uzl">Tap to upload fabric photo</span>
+          <div class="uzov"><span>Change</span></div>
+        </div>
+        <input type="file" id="fi1" accept="image/*" style="display:none" onchange="onUp(event,'f1')"/>
+      </div>
+
+      <div class="cf" id="cf">
+        <div class="ct">Upload Both Fabrics</div>
+        <div class="cd">Sheer for back layer, main fabric for front panels</div>
+        <span class="clbl">Layer 1 — Sheer / Net (Back)</span>
+        <div class="uz" id="uz2" onclick="document.getElementById('fi2').click()">
+          <span class="uzi">🌿</span><span class="uzl">Sheer / Net / Tissue fabric</span>
+          <div class="uzov"><span>Change</span></div>
+        </div>
+        <input type="file" id="fi2" accept="image/*" style="display:none" onchange="onUp(event,'f2')"/>
+        <span class="clbl">Layer 2 — Main Curtain (Front)</span>
+        <div class="uz" id="uz3" onclick="document.getElementById('fi3').click()">
+          <span class="uzi">🧵</span><span class="uzl">Main / Heavy curtain fabric</span>
+          <div class="uzov"><span>Change</span></div>
+        </div>
+        <input type="file" id="fi3" accept="image/*" style="display:none" onchange="onUp(event,'f3')"/>
+      </div>
+
+      <div class="cs" style="margin-top:20px">
+        <div class="ct">Room Style</div>
+        <div class="cd">Choose the room setting</div>
+        <div class="sg">
+          <button class="sb on" data-s="modern" onclick="selS(this)"><span class="si">🏡</span>Living Room</button>
+          <button class="sb" data-s="classic" onclick="selS(this)"><span class="si">🏛️</span>Classic</button>
+          <button class="sb" data-s="bedroom" onclick="selS(this)"><span class="si">🛏️</span>Bedroom</button>
+          <button class="sb" data-s="dining" onclick="selS(this)"><span class="si">🍽️</span>Dining</button>
+          <button class="sb" data-s="minimal" onclick="selS(this)"><span class="si">⬜</span>Minimal</button>
+          <button class="sb" data-s="boho" onclick="selS(this)"><span class="si">🌿</span>Boho</button>
+        </div>
+      </div>
+
+      <button class="gb" id="gb" onclick="generate()" disabled>✦ Generate Room View</button>
+      <button class="db" id="db" onclick="dlImg()">⬇ Download Image</button>
+    </div>
+
+    <div class="outp">
+      <div class="outa">
+        <div class="oph" id="oph">
+          <div class="bi">🪟</div>
+          <h3>Your room preview</h3>
+          <p>Upload a fabric photo and tap Generate<br>to see your curtain in a real room</p>
+          <div class="hint">Upload close-up fabric photo only — not a room photo</div>
+        </div>
+        <img id="outImg" alt="Room visualization"/>
+        <div class="lov" id="lov">
+          <div class="spin"></div>
+          <div class="ltxt">Processing your fabric...</div>
+          <div class="lsv" id="ls">Uploading to server...</div>
+        </div>
+      </div>
+      <div class="rb" id="rb"><strong id="rt"></strong><p id="rd"></p></div>
+    </div>
+  </div>
+</section>
+
+<section class="how">
+  <p class="sl">Simple Process</p>
+  <h2 class="st" style="text-align:center;margin-bottom:44px">How it works</h2>
+  <div class="steps">
+    <div class="step"><div class="sn">1</div><div class="sbody"><h3>Upload your fabric photo</h3><p>Take a clear close-up photo of your curtain fabric in good natural lighting. The pattern and texture should be clearly visible.</p></div></div>
+    <div class="step"><div class="sn">2</div><div class="sbody"><h3>Choose your room style</h3><p>Select from Living Room, Classic, Bedroom, Dining, Minimal, or Boho — the room that best matches your customer's home.</p></div></div>
+    <div class="step"><div class="sn">3</div><div class="sbody"><h3>Server renders realistic result</h3><p>Our server maps your fabric precisely onto a real room photo with accurate fold shading, draping, and lighting.</p></div></div>
+    <div class="step"><div class="sn">4</div><div class="sbody"><h3>Try double layer combinations</h3><p>Upload sheer net fabric and main curtain fabric together — see exactly how the combination looks before ordering.</p></div></div>
+  </div>
+</section>
+
+<footer><strong>Drape & Dream</strong> &nbsp;—&nbsp; AI Curtain Visualizer &nbsp;|&nbsp; Premium Fabric Business</footer>
+<div class="toast" id="toast"></div>
+
+<script>
+const GROQ_KEY='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';
+let mode='single',style='modern',fabrics={},mimes={},resultUrl=null;
+
+function setMode(btn,m){
+  mode=m;
+  document.querySelectorAll('.mtab').forEach(b=>b.classList.remove('on'));
+  btn.classList.add('on');
+  document.getElementById('sf').classList.toggle('hide',m==='combo');
+  document.getElementById('cf').classList.toggle('show',m==='combo');
+  checkReady();
+}
+function selS(btn){
+  document.querySelectorAll('.sb').forEach(b=>b.classList.remove('on'));
+  btn.classList.add('on');style=btn.dataset.s;
+}
+function onUp(e,key){
+  const file=e.target.files[0];if(!file)return;
+  mimes[key]=file.type;
+  const r=new FileReader();
+  r.onload=ev=>{
+    fabrics[key]=ev.target.result;
+    const zid=key==='f1'?'uz1':key==='f2'?'uz2':'uz3';
+    const z=document.getElementById(zid);
+    z.classList.add('done');
+    let th=z.querySelector('img.th');
+    if(!th){th=document.createElement('img');th.className='th';z.appendChild(th);}
+    th.src=ev.target.result;
+    z.querySelector('.uzi')&&(z.querySelector('.uzi').style.display='none');
+    z.querySelector('.uzl')&&(z.querySelector('.uzl').style.display='none');
+    checkReady();
+  };
+  r.readAsDataURL(file);
+}
+function checkReady(){
+  document.getElementById('gb').disabled=mode==='single'?!fabrics.f1:!(fabrics.f2&&fabrics.f3);
+}
+const STEPS=['Uploading fabric to server...','Server processing image...','Mapping fabric to curtain shape...','Applying fold shading...','Color grading room...','Finalizing...'];
+async function generate(){
+  document.getElementById('gb').disabled=true;
+  document.getElementById('lov').classList.add('on');
+  document.getElementById('oph').style.display='none';
+  document.getElementById('outImg').style.display='none';
+  document.getElementById('rb').classList.remove('show');
+  document.getElementById('db').classList.remove('show');
+  let si=0;
+  const st=setInterval(()=>{si=(si+1)%STEPS.length;document.getElementById('ls').textContent=STEPS[si];},1000);
+  try{
+    const mainB64=fabrics[mode==='single'?'f1':'f3'].split(',')[1];
+    const sheerB64=mode==='combo'?fabrics.f2.split(',')[1]:null;
+    const resp=await fetch('/visualize',{
+      method:'POST',
+      headers:{'Content-Type':'application/json'},
+      body:JSON.stringify({fabric_main:mainB64,fabric_sheer:sheerB64,style,mode})
+    });
+    const data=await resp.json();
+    if(data.error)throw new Error(data.error);
+    const src='data:image/jpeg;base64,'+data.image;
+    const img=document.getElementById('outImg');
+    img.src=src;img.style.display='block';
+    resultUrl=src;
+    // AI description
+    try{
+      const fkey=mode==='single'?'f1':'f3';
+      const ar=await fetch('https://api.groq.com/openai/v1/chat/completions',{
+        method:'POST',
+        headers:{'Content-Type':'application/json','Authorization':`Bearer ${GROQ_KEY}`},
+        body:JSON.stringify({model:'meta-llama/llama-4-scout-17b-16e-instruct',max_tokens:150,
+          messages:[{role:'user',content:[
+            {type:'image_url',image_url:{url:fabrics[fkey]}},
+            {type:'text',text:'Analyze curtain fabric. ONLY JSON: {"mood":"one word","title":"4-word title","analysis":"one sentence about color and pattern."}'}
+          ]}]
+        })
+      });
+      const ad=await ar.json();
+      if(!ad.error){
+        const p={...{mood:'Elegant',title:'Your Room Preview',analysis:''},...JSON.parse((ad.choices?.[0]?.message?.content||'{}').replace(/```json|```/g,'').trim())};
+        document.getElementById('rt').textContent=p.mood+' — '+p.title;
+        document.getElementById('rd').textContent=p.analysis;
+        document.getElementById('rb').classList.add('show');
+      }
+    }catch(e){}
+    document.getElementById('db').classList.add('show');
+  }catch(err){
+    showToast('Error: '+(err.message||'Something went wrong'));
+    document.getElementById('oph').style.display='flex';
+  }finally{
+    clearInterval(st);
+    document.getElementById('lov').classList.remove('on');
+    checkReady();
+  }
+}
+function dlImg(){
+  if(!resultUrl)return;
+  const a=document.createElement('a');a.href=resultUrl;a.download='drape-dream.jpg';a.click();
+}
+function showToast(msg){
+  const t=document.getElementById('toast');t.textContent=msg;
+  t.classList.add('show');setTimeout(()=>t.classList.remove('show'),4500);
+}
+</script>
+</body>
+</html>
