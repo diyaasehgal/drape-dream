@@ -53,25 +53,25 @@ h1 em{font-style:italic;color:var(--gold)}
 .oph .bi{font-size:3.5rem;opacity:.1;margin-bottom:16px}
 .oph h3{font-family:"Cormorant Garamond",serif;font-size:1.4rem;font-weight:300;color:rgba(255,255,255,.28);margin-bottom:8px}
 .oph p{font-size:.75rem;color:rgba(255,255,255,.16);line-height:1.7}
-.oph .hint{margin-top:14px;font-size:.68rem;color:rgba(184,147,90,.45);letter-spacing:.05em}
-.lov{position:absolute;inset:0;background:rgba(14,11,9,.95);display:none;flex-direction:column;align-items:center;justify-content:center;gap:20px;z-index:20;padding:40px}
+.oph .hint{margin-top:14px;font-size:.68rem;color:rgba(184,147,90,.45)}
+.lov{position:absolute;inset:0;background:rgba(14,11,9,.95);display:none;flex-direction:column;align-items:center;justify-content:center;gap:18px;z-index:20;padding:32px}
 .lov.on{display:flex}
 .spin{width:44px;height:44px;border:2px solid rgba(255,255,255,.08);border-top-color:var(--gold);border-radius:50%;animation:sp .85s linear infinite}
 @keyframes sp{to{transform:rotate(360deg)}}
-.ltxt{font-size:.78rem;color:rgba(255,255,255,.5);letter-spacing:.1em;text-transform:uppercase}
+.ltxt{font-size:.76rem;color:rgba(255,255,255,.45);letter-spacing:.1em;text-transform:uppercase}
 .lsv{font-size:.74rem;color:var(--gold);text-align:center;max-width:280px;line-height:1.6}
-.ltimer{font-size:.7rem;color:rgba(255,255,255,.25);margin-top:4px}
-.rb{background:var(--white);padding:16px 22px;border-top:1px solid var(--silk);display:none}
-.rb.show{display:block}.rb strong{font-family:"Cormorant Garamond",serif;font-size:1rem;display:block;margin-bottom:4px;color:var(--gold)}
-.rb p{font-size:.76rem;color:var(--mist);line-height:1.65}
+.ltimer{font-size:.68rem;color:rgba(255,255,255,.2);margin-top:2px}
+.rb{background:var(--white);padding:14px 20px;border-top:1px solid var(--silk);display:none}
+.rb.show{display:block}.rb strong{font-family:"Cormorant Garamond",serif;font-size:.95rem;display:block;margin-bottom:3px;color:var(--gold)}
+.rb p{font-size:.74rem;color:var(--mist);line-height:1.65}
 .how{padding:80px 24px;background:var(--linen)}.steps{max-width:720px;margin:0 auto}
-.step{display:flex;gap:30px;padding:30px 0;border-bottom:1px solid var(--silk)}.step:last-child{border-bottom:none}
-.sn{font-family:"Cormorant Garamond",serif;font-size:2.4rem;font-weight:300;color:var(--gold);opacity:.3;min-width:46px;line-height:1;flex-shrink:0}
-.sbody h3{font-family:"Cormorant Garamond",serif;font-size:1.2rem;font-weight:400;margin-bottom:6px}
-.sbody p{font-size:.78rem;color:var(--mist);line-height:1.72}
-footer{background:var(--ink);color:rgba(255,255,255,.3);text-align:center;padding:28px 24px;font-size:.7rem;letter-spacing:.08em}
+.step{display:flex;gap:30px;padding:28px 0;border-bottom:1px solid var(--silk)}.step:last-child{border-bottom:none}
+.sn{font-family:"Cormorant Garamond",serif;font-size:2.2rem;font-weight:300;color:var(--gold);opacity:.3;min-width:42px;line-height:1;flex-shrink:0}
+.sbody h3{font-family:"Cormorant Garamond",serif;font-size:1.15rem;font-weight:400;margin-bottom:5px}
+.sbody p{font-size:.77rem;color:var(--mist);line-height:1.7}
+footer{background:var(--ink);color:rgba(255,255,255,.3);text-align:center;padding:26px 24px;font-size:.7rem;letter-spacing:.08em}
 footer strong{color:var(--gold-lt);font-weight:400}
-.toast{position:fixed;bottom:24px;left:50%;transform:translateX(-50%);background:var(--ink);color:white;padding:11px 24px;font-size:.75rem;opacity:0;transition:opacity .3s;pointer-events:none;z-index:999;border-left:3px solid var(--gold);max-width:90vw;text-align:center}
+.toast{position:fixed;bottom:20px;left:50%;transform:translateX(-50%);background:var(--ink);color:white;padding:10px 22px;font-size:.74rem;opacity:0;transition:opacity .3s;pointer-events:none;z-index:999;border-left:3px solid var(--gold);max-width:92vw;text-align:center}
 .toast.show{opacity:1}
 .cf{display:none}.cf.show{display:block}.sf.hide{display:none}
 </style>
@@ -85,7 +85,7 @@ footer strong{color:var(--gold-lt);font-weight:400}
 <section class="hero">
   <p class="ey">See before you buy</p>
   <h1>See your fabric <em>draped</em><br>in a real room</h1>
-  <p class="hs">Upload your curtain fabric photo — our AI generates a beautiful, photorealistic room showing exactly how your fabric looks as curtains.</p>
+  <p class="hs">Upload your curtain fabric photo — AI analyzes the color and pattern, then generates a photorealistic room with your fabric as beautiful curtains.</p>
   <a href="#vis" class="cta">✦ Try the Visualizer</a>
 </section>
 
@@ -96,7 +96,7 @@ footer strong{color:var(--gold-lt);font-weight:400}
     <div class="ctrl">
       <div style="margin-bottom:20px">
         <div class="ct">Curtain Type</div>
-        <div class="cd">Single fabric or two-layer combination?</div>
+        <div class="cd">Single fabric or double layer?</div>
         <div class="mt">
           <button class="mtab on" onclick="setMode(this,'single')">Single Layer</button>
           <button class="mtab" onclick="setMode(this,'combo')">Double Layer</button>
@@ -105,10 +105,9 @@ footer strong{color:var(--gold-lt);font-weight:400}
 
       <div class="sf" id="sf">
         <div class="ct">Upload Fabric Photo</div>
-        <div class="cd">Close-up of your curtain fabric — the clearer the photo, the better the result!</div>
+        <div class="cd">Clear close-up of your curtain fabric</div>
         <div class="uz" id="uz1" onclick="document.getElementById('fi1').click()">
-          <span class="uzi">🪡</span>
-          <span class="uzl">Tap to upload fabric photo</span>
+          <span class="uzi">🪡</span><span class="uzl">Tap to upload fabric photo</span>
           <div class="uzov"><span>Change Photo</span></div>
         </div>
         <input type="file" id="fi1" accept="image/*" style="display:none" onchange="onUp(event,'f1')"/>
@@ -116,7 +115,7 @@ footer strong{color:var(--gold-lt);font-weight:400}
 
       <div class="cf" id="cf">
         <div class="ct">Upload Both Fabrics</div>
-        <div class="cd">Sheer for back layer, main fabric for front panels</div>
+        <div class="cd">Sheer back layer + main front panels</div>
         <span class="clbl">Layer 1 — Sheer / Net (Back)</span>
         <div class="uz" id="uz2" onclick="document.getElementById('fi2').click()">
           <span class="uzi">🌿</span><span class="uzl">Sheer / Net / Tissue fabric</span>
@@ -133,7 +132,7 @@ footer strong{color:var(--gold-lt);font-weight:400}
 
       <div style="margin-top:20px">
         <div class="ct">Room Style</div>
-        <div class="cd">Choose the room setting</div>
+        <div class="cd">Choose the setting</div>
         <div class="sg">
           <button class="sb on" data-s="modern" onclick="selS(this)"><span class="si">🏡</span>Living Room</button>
           <button class="sb" data-s="classic" onclick="selS(this)"><span class="si">🏛️</span>Classic</button>
@@ -153,33 +152,30 @@ footer strong{color:var(--gold-lt);font-weight:400}
         <div class="oph" id="oph">
           <div class="bi">🪟</div>
           <h3>Your AI room preview</h3>
-          <p>Upload a fabric photo and tap Generate<br>AI will create a realistic room with<br>your fabric as curtains</p>
-          <div class="hint">Works best with clear, well-lit fabric photos</div>
+          <p>Upload fabric photo and tap Generate<br>AI creates a photorealistic room<br>with your fabric as curtains</p>
+          <div class="hint">Best results with clear, well-lit fabric photos</div>
         </div>
-        <img id="outImg" alt="AI Generated Room"/>
+        <img id="outImg" alt="AI Room"/>
         <div class="lov" id="lov">
           <div class="spin"></div>
           <div class="ltxt">AI generating your room...</div>
-          <div class="lsv" id="ls">Analyzing fabric color and pattern...</div>
-          <div class="ltimer" id="ltimer">This takes 20-40 seconds</div>
+          <div class="lsv" id="ls">Analyzing fabric...</div>
+          <div class="ltimer" id="ltimer">Takes 15-30 seconds</div>
         </div>
       </div>
-      <div class="rb" id="rb">
-        <strong id="rt">Your Room Preview</strong>
-        <p id="rd"></p>
-      </div>
+      <div class="rb" id="rb"><strong id="rt">Room Preview</strong><p id="rd"></p></div>
     </div>
   </div>
 </section>
 
 <section class="how">
   <p class="sl">Simple Process</p>
-  <h2 class="st" style="text-align:center;margin-bottom:44px">How it works</h2>
+  <h2 class="st" style="text-align:center;margin-bottom:40px">How it works</h2>
   <div class="steps">
-    <div class="step"><div class="sn">1</div><div class="sbody"><h3>Upload your fabric photo</h3><p>Take a clear close-up photo of your curtain fabric in good lighting. The better the photo, the more accurate the AI result will be.</p></div></div>
-    <div class="step"><div class="sn">2</div><div class="sbody"><h3>Choose your room style</h3><p>Select from Living Room, Classic, Bedroom, Dining, Minimal, or Boho to match your customer's home style.</p></div></div>
-    <div class="step"><div class="sn">3</div><div class="sbody"><h3>AI generates the room</h3><p>Our AI analyzes your fabric's exact color, pattern, and texture — then generates a photorealistic room with your fabric as beautiful curtains.</p></div></div>
-    <div class="step"><div class="sn">4</div><div class="sbody"><h3>Download and share</h3><p>Download the generated image to share with customers via WhatsApp, Instagram, or print it for your shop display.</p></div></div>
+    <div class="step"><div class="sn">1</div><div class="sbody"><h3>Upload your fabric photo</h3><p>Take a clear close-up of your curtain fabric in good lighting. The clearer the photo, the more accurate the result.</p></div></div>
+    <div class="step"><div class="sn">2</div><div class="sbody"><h3>Choose a room style</h3><p>Select Living Room, Classic, Bedroom, Dining, Minimal, or Boho to match your customer's home.</p></div></div>
+    <div class="step"><div class="sn">3</div><div class="sbody"><h3>AI generates the room</h3><p>AI analyzes your fabric's exact color, pattern, and texture — then generates a realistic room with your fabric as curtains.</p></div></div>
+    <div class="step"><div class="sn">4</div><div class="sbody"><h3>Download and share</h3><p>Share with customers on WhatsApp or Instagram. Download to print for your shop display.</p></div></div>
   </div>
 </section>
 
@@ -187,6 +183,8 @@ footer strong{color:var(--gold-lt);font-weight:400}
 <div class="toast" id="toast"></div>
 
 <script>
+// HuggingFace token for browser-side image generation
+const HF_TOKEN = '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';
 let mode='single', style='modern', fabrics={}, mimes={}, resultUrl=null;
 
 function setMode(btn,m){
@@ -223,15 +221,7 @@ function checkReady(){
   document.getElementById('gb').disabled=mode==='single'?!fabrics.f1:!(fabrics.f2&&fabrics.f3);
 }
 
-const STEPS=[
-  'Analyzing fabric color and pattern...',
-  'Understanding texture and design...',
-  'Creating room layout...',
-  'Placing curtains in the room...',
-  'Adding lighting and shadows...',
-  'Finalizing photorealistic details...',
-  'Almost ready...'
-];
+const STEPS=['Analyzing fabric color...','Understanding pattern & texture...','Building room layout...','Adding curtains...','Applying lighting...','Almost done...'];
 
 async function generate(){
   document.getElementById('gb').disabled=true;
@@ -242,62 +232,120 @@ async function generate(){
   document.getElementById('db').classList.remove('show');
 
   let si=0;
-  const st=setInterval(()=>{
-    si=(si+1)%STEPS.length;
-    document.getElementById('ls').textContent=STEPS[si];
-  },4000);
-
-  // Timer
+  const st=setInterval(()=>{si=(si+1)%STEPS.length;document.getElementById('ls').textContent=STEPS[si];},3500);
   let secs=0;
-  const timer=setInterval(()=>{
-    secs++;
-    document.getElementById('ltimer').textContent=`${secs}s elapsed — AI is working...`;
-  },1000);
+  const tm=setInterval(()=>{secs++;document.getElementById('ltimer').textContent=secs+'s elapsed...';},1000);
 
   try{
+    // Step 1: Get fabric description from server (Groq)
+    document.getElementById('ls').textContent='Analyzing fabric...';
     const fkey=mode==='single'?'f1':'f3';
-    const mainB64=fabrics[fkey].split(',')[1];
-    const mainMime=mimes[fkey];
-    
     const body={
-      fabric_main: mainB64,
-      fabric_mime: mainMime,
-      style,
-      mode
+      fabric_main: fabrics[fkey].split(',')[1],
+      fabric_mime: mimes[fkey],
+      style, mode
     };
-    
-    if(mode==='combo' && fabrics.f2){
+    if(mode==='combo'&&fabrics.f2){
       body.fabric_sheer=fabrics.f2.split(',')[1];
-      body.sheer_mime=mimes.f2;
+      body.sheer_mime=mimes.f2||'image/jpeg';
     }
 
-    const resp=await fetch('/visualize',{
+    const analyzeResp=await fetch('/analyze',{
       method:'POST',
       headers:{'Content-Type':'application/json'},
       body:JSON.stringify(body)
     });
+    const analyzeData=await analyzeResp.json();
+    if(analyzeData.error) throw new Error(analyzeData.error);
 
-    const data=await resp.json();
-    if(data.error) throw new Error(data.error);
+    const prompt=analyzeData.prompt;
+    document.getElementById('rt').textContent='Fabric: '+analyzeData.fabric_description;
 
-    const src='data:image/jpeg;base64,'+data.image;
-    const img=document.getElementById('outImg');
-    img.src=src;
-    img.style.display='block';
-    resultUrl=src;
+    // Step 2: Generate image via HuggingFace directly from browser
+    document.getElementById('ls').textContent='Generating room image...';
 
-    if(data.fabric_description){
-      document.getElementById('rd').textContent='Fabric: '+data.fabric_description;
-      document.getElementById('rb').classList.add('show');
+    const HF_MODELS=[
+      'black-forest-labs/FLUX.1-schnell',
+      'stabilityai/stable-diffusion-xl-base-1.0',
+      'SG161222/Realistic_Vision_V5.1_noVAE',
+      'Lykon/dreamshaper-8',
+    ];
+
+    let imgBlob=null;
+    let lastError='';
+
+    for(const model of HF_MODELS){
+      try{
+        document.getElementById('ls').textContent='Trying '+model.split('/')[1]+'...';
+        const hfResp=await fetch('https://api-inference.huggingface.co/models/'+model,{
+          method:'POST',
+          headers:{
+            'Authorization':'Bearer '+HF_TOKEN,
+            'Content-Type':'application/json'
+          },
+          body:JSON.stringify({
+            inputs: prompt,
+            parameters:{
+              num_inference_steps:20,
+              guidance_scale:7.5,
+              width:768,
+              height:768
+            }
+          }),
+          signal: AbortSignal.timeout(55000)
+        });
+
+        const ct=hfResp.headers.get('content-type')||'';
+        if(hfResp.ok && ct.startsWith('image')){
+          imgBlob=await hfResp.blob();
+          break;
+        } else if(hfResp.status===503){
+          // Model loading - wait and retry once
+          document.getElementById('ls').textContent='Model loading, waiting 20s...';
+          await new Promise(r=>setTimeout(r,20000));
+          const retry=await fetch('https://api-inference.huggingface.co/models/'+model,{
+            method:'POST',
+            headers:{'Authorization':'Bearer '+HF_TOKEN,'Content-Type':'application/json'},
+            body:JSON.stringify({inputs:prompt}),
+            signal:AbortSignal.timeout(55000)
+          });
+          const rct=retry.headers.get('content-type')||'';
+          if(retry.ok && rct.startsWith('image')){
+            imgBlob=await retry.blob();
+            break;
+          }
+        } else {
+          const errText=await hfResp.text();
+          lastError=errText.substring(0,100);
+        }
+      }catch(e){
+        lastError=e.message;
+        continue;
+      }
     }
+
+    if(!imgBlob) throw new Error('Image generation failed. Please try again in 1 minute — AI models need to warm up.');
+
+    // Show image
+    const url=URL.createObjectURL(imgBlob);
+    const img=document.getElementById('outImg');
+    img.onload=()=>{
+      const canvas=document.createElement('canvas');
+      canvas.width=img.naturalWidth; canvas.height=img.naturalHeight;
+      canvas.getContext('2d').drawImage(img,0,0);
+      resultUrl=canvas.toDataURL('image/jpeg',0.92);
+    };
+    img.src=url;
+    img.style.display='block';
+    resultUrl=url;
+    document.getElementById('rb').classList.add('show');
     document.getElementById('db').classList.add('show');
 
   }catch(err){
-    showToast('❌ '+err.message+' — Please try again');
+    showToast('❌ '+err.message);
     document.getElementById('oph').style.display='flex';
   }finally{
-    clearInterval(st);
-    clearInterval(timer);
+    clearInterval(st); clearInterval(tm);
     document.getElementById('lov').classList.remove('on');
     checkReady();
   }
@@ -306,15 +354,11 @@ async function generate(){
 function dlImg(){
   if(!resultUrl)return;
   const a=document.createElement('a');
-  a.href=resultUrl;
-  a.download='drape-dream-room.jpg';
-  a.click();
+  a.href=resultUrl; a.download='drape-dream-room.jpg'; a.click();
 }
 function showToast(msg){
-  const t=document.getElementById('toast');
-  t.textContent=msg;
-  t.classList.add('show');
-  setTimeout(()=>t.classList.remove('show'),5000);
+  const t=document.getElementById('toast'); t.textContent=msg;
+  t.classList.add('show'); setTimeout(()=>t.classList.remove('show'),6000);
 }
 </script>
 </body>
